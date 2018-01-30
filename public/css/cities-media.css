@@ -1,0 +1,41 @@
+@charset "UTF-8";
+/**
+ * Created by PhpStorm.
+ * User: Денис
+ * Date: 28.01.18
+ * Time: 10:03
+ */
+/*-------------------------------------------------------
+                    Up
+--------------------------------------------------------*/
+/*-------------------------------------------------------
+                    Down
+--------------------------------------------------------*/
+@media (max-width: 576px) {
+  .navbar-brand {
+    white-space: normal; }
+
+  table.cities-table tbody,
+  table.cities-table tbody > tr,
+  table.cities-table tbody > tr > td {
+    display: block; }
+  table.cities-table tbody > tr {
+    border-bottom: 1px solid #b3b4b6; }
+    table.cities-table tbody > tr td.Actions {
+      display: flex;
+      justify-content: space-around; }
+  table.cities-table thead {
+    display: block; }
+  table.cities-table thead > tr {
+    display: flex;
+    flex-wrap: wrap;
+    width: 100%; }
+    table.cities-table thead > tr th {
+      flex-grow: 1; }
+      table.cities-table thead > tr th.Language, table.cities-table thead > tr th.Actions {
+        display: none; } }
+/*-------------------------------------------------------
+                    Strict
+--------------------------------------------------------*/
+
+/*# sourceMappingURL=cities-media.css.map */

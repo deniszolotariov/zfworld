@@ -1,0 +1,92 @@
+/**
+ * Created by PhpStorm.
+ * User: Денис
+ * Date: 28.01.18
+ * Time: 10:03
+ */
+
+/*-------------------------------------------------------
+                    Up
+--------------------------------------------------------*/
+@media (min-width: 1px) {
+
+}
+@media (min-width: 576px) {
+
+}
+@media (min-width: 768px) {
+
+}
+@media (min-width: 992px) {
+
+}@media (min-width: 1200px) {
+
+}
+/*-------------------------------------------------------
+                    Down
+--------------------------------------------------------*/
+@media (max-width: 576px) {
+  .navbar-brand {
+    white-space: normal;
+  }
+
+  table.cities-table {
+    tbody,
+    tbody > tr,
+    tbody > tr > td {
+      display: block;
+    }
+    tbody > tr {
+      border-bottom: 1px solid #b3b4b6;
+
+      td.Actions {
+        display: flex;
+        justify-content: space-around;
+      }
+    }
+
+    thead {
+      display: block;
+    }
+    thead > tr {
+      display: flex;
+      flex-wrap: wrap;
+      width: 100%;
+
+      th {
+        flex-grow: 1;
+
+        &.Language,
+        &.Actions {
+          display: none;
+        }
+      }
+    }
+  }
+}
+@media (max-width: 768px) {
+
+}
+@media (max-width: 992px) {
+
+}@media (max-width: 1200px) {
+
+}
+/*-------------------------------------------------------
+                    Strict
+--------------------------------------------------------*/
+@media (max-width: 400px) {
+
+}
+@media (min-width: 400px) and (max-width: 576px) {
+
+}
+@media (min-width: 576px) and (max-width: 767px) {
+
+}
+@media (min-width: 767px) and (max-width: 991px) {
+
+}
+@media (min-width: 991px) and (max-width: 1199px) {
+
+}

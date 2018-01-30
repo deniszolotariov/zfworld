@@ -1,0 +1,47 @@
+<?php if ($this->pageCount):
+	$is_first = !$this->current || $this->current == 1;
+	$has_prev = isset($this->previous);
+	$has_next = isset($this->next);
+	$is_last = $this->current == $this->pageCount;
+
+    // for inplace
+	// $query = $this->viewModel()->getCurrent()->getVariables()['query'];
+?>
+
+<?php $getPageItem = function($pageNum, $enabled, $active = false, $symbol = null) use($query) {
+	?>
+		<li class="page-item <?= $active ? 'active' : ($enabled ? '' : 'disabled') ?>">
+            <a class="page-link" href="<?= $enabled ?
+                $this->url($this->route, [], ['query' => array_merge($query, ['page' => $pageNum])]) :
+                '#' ?>"
+               onclick="<?= $enabled ?
+                   '' :
+                   'return false;' ?>
+                       ">
+                <?= $symbol ?: $pageNum ?>
+            </a>
+        </li>
+<?php } ?>
+
+    <div>
+        <ul class="pagination">
+            <!-- First page link -->
+            <?= $getPageItem(1, !$is_first, false, '<i class="fa fa-step-backward"></i>') ?>
+
+            <!-- Previous page link -->
+			<?= $getPageItem($this->previous, $has_prev, false, '<i class="fa fa-angle-double-left"></i>') ?>
+
+            <!-- Numbered page links -->
+			<?php foreach ($this->pagesInRange as $page){
+				$getPageItem($page, $page !== $this->current, $page === $this->current, $page);
+            } ?>
+
+            <!-- Next page link -->
+			<?= $getPageItem($this->next, $has_next, false, '<i class="fa fa-angle-double-right"></i>') ?>
+
+            <!-- Last page link -->
+			<?= $getPageItem($this->pageCount, $has_next, false, '<i class="fa fa-step-forward"></i>') ?>
+        </ul>
+        <?php /* <span>From: <?= $this->pageCount ?></span> */ ?>
+    </div>
+<?php endif ?>

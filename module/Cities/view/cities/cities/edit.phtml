@@ -1,0 +1,52 @@
+<?php
+/**
+ * Created by PhpStorm.
+ * User: Денис
+ * Date: 27.01.18
+ * Time: 16:17
+ */
+
+$title = 'Edit city';
+$this->headTitle($title);
+
+?>
+
+    <h1><?= $this->escapeHtml($title) ?></h1>
+
+    <?php if ($error) : ?>
+        <div class="alert alert-danger alert-dismissable">
+            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+            <?= $error ?> <br>
+            Correct the mistakes and try again.
+        </div>
+    <?php endif; ?>
+
+<?php
+    // This provides a default CSS class and placeholder text for the title element:
+    $city = $form->get('Name');
+    $city->setAttribute('class', 'form-control');
+    $city->setAttribute('placeholder', 'City Name');
+
+    // This provides CSS classes for the submit button:
+    $submit = $form->get('submit');
+    $submit->setAttribute('class', 'btn btn-primary');
+
+    $form->setAttribute('action', $this->url('cities', [
+        'action' => 'edit',
+        'id'     => $id,
+    ]));
+    $form->prepare();
+
+    echo $this->form()->openTag($form);
+?>
+
+        <div class="form-group">
+            <?= $this->formLabel($city) ?>
+            <?= $this->formElement($city) ?>
+            <?= $this->formElementErrors()->render($city, ['class' => 'help-block']) ?>
+        </div>
+
+<?php
+        echo $this->formHidden($form->get('ID'));
+        echo $this->formSubmit($form->get('submit'));
+    echo $this->form()->closeTag();

@@ -1,0 +1,227 @@
+/**
+ * Created by PhpStorm.
+ * User: Денис
+ * Date: 28.01.18
+ * Time: 10:03
+ */
+
+$color_hover: #F8F8F8;
+$color_unactive: #E4E4E4;
+$color_info: #d9edf7;
+$color_b_input: #d9edf7;
+
+$btn_size: 35px;
+$corner_size: 10px;
+
+$impot_col_width: 21%;
+
+a,
+.page-link
+{
+  color: #579BE4;
+}
+
+table.cities-table {
+  th {
+    padding:0;
+    min-width: $impot_col_width;
+
+    &:nth-child(n+5) {
+      min-width: 100% - 4*$impot_col_width;
+    }
+
+    a {
+      display: inline-flex;
+      width: 100%;
+      align-items: center;
+      justify-content: space-between;
+      text-decoration: none !important;
+      padding: 12px;
+      i {
+        color: black;
+
+      }
+    }
+
+    @mixin table_th_shadow($color) {
+      box-shadow: 0px -19px 18px -16px $color inset;
+    }
+    &.sort-pos-1 {
+      @include table_th_shadow(#FF0000);
+    }
+    &.sort-pos-2 {
+      @include table_th_shadow(#FF5F59);
+    }
+    &.sort-pos-3 {
+      @include table_th_shadow(#FFB6B4);
+    }
+    &.sort-pos-4 {
+      @include table_th_shadow(#FFFCFC);
+    }
+  }
+
+  tbody tr {
+    &:nth-child(4n+1) {
+      background-color: #FAFEFF;
+    }
+
+    &:hover {
+      .language-list li:first-child {
+        background-color: $color_hover;
+
+        .popup-sign {
+          color: #000000;
+        }
+      }
+      td.actions .button {
+        border-color: #DBE0E4;
+        background-color: #F2FAFF;
+      }
+    }
+
+    td.Actions {
+      text-align: right;
+    }
+
+    .button {
+      display: inline-block;
+      border-radius: 5px;
+      border: 1px solid transparent;
+      width: $btn_size;
+      height: $btn_size;
+      line-height: $btn_size;
+      text-align: center;
+      margin-right: 10px;
+
+      &.button-border {
+        border: 1px solid $color_b_input;
+      }
+
+      &:hover {
+        border-color: #ABCAE4;
+        background-color: #D4EDFF;
+      }
+    }
+
+    .edit-form {
+      display: flex;
+      justify-content: space-between;
+      align-items: stretch;
+
+      button {
+        background-color: transparent;
+      }
+
+      input[type="text"] {
+        flex-grow: 0.9;
+        border-radius: 5px;
+        border: 1px solid $color_b_input;
+        padding: 0 5px;
+      }
+    }
+  }
+
+  tr.info {
+    position: relative;
+
+    &:after {
+      content: "";
+      display: inline-block;
+      position: absolute;
+      left: $corner_size;
+      top: -2*$corner_size;
+      border: $corner_size solid transparent;
+      border-bottom: $corner_size solid $color_info;
+    }
+
+    > td {
+      background-color: $color_info;
+
+      > * {
+        display: block;
+        height:25px;
+        line-height:25px;
+
+        &:not(:last-child) {
+          border-bottom: 1px solid $color_unactive;
+        }
+
+        .name {
+          font-weight: bold;
+        }
+        .value {
+
+        }
+      }
+    }
+  }
+
+  .language-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    position: relative;
+
+    &.open {
+      -webkit-border-radius: 5px;
+      -moz-border-radius: 5px;
+      border-radius: 5px;;
+      border: 1px solid #F3F3F3;
+      margin: -4px;
+      padding: 4px;
+
+      li:before {
+        content: "";
+        display: inline-block;
+        position: absolute;
+        top:2px;
+        left:0;
+        bottom:2px;
+        background-color: rgba(133, 201, 247, 0.5);
+        border-radius: 3px;
+      }
+
+    }
+
+    li:first-child {
+      border-bottom: 1px dashed $color_unactive;
+      cursor: pointer;
+
+      &:hover {
+        background-color: $color_hover;
+      }
+
+      .popup-sign {
+        color: transparent;
+        position: absolute;
+        top:50%;
+        right: 0;
+        transform: translate(-50%, -50%);
+      }
+    }
+
+    li {
+      padding: 5px;
+      position: relative;
+
+      .language {
+        display: inline-block;
+        min-width: 30%;
+      }
+
+      .isofficial {
+        color: $color_unactive;
+        float: right;
+
+        &.official {
+          color: #4CAE4C;
+        }
+      }
+    }
+  }
+}
+
+.pagination {
+  flex-wrap: wrap;
+  justify-content: center;
+}

@@ -1,0 +1,211 @@
+<?php
+/**
+ * Created by PhpStorm.
+ * User: Денис
+ * Date: 28.01.18
+ * Time: 12:15
+ */
+
+$title = 'Cities';
+$this->headTitle($title);
+
+?>
+<h1><?= $this->escapeHtml($title) ?></h1>
+
+<?php $getTableTHItem = function($name, $title, $can_sort = true) use($query) {
+    if ( $can_sort ) {
+		$sorting_current = strtolower($query['sort'][$name] ?: '');
+		$sorting_next = !$sorting_current ? 'asc' :($sorting_current == 'asc' ? 'desc' : '');
+		if ($sorting_next)  {
+			$sorting = array_merge($query['sort'] ?: [], [$name => $sorting_next]);
+		}
+		else {
+			$sorting = $query['sort'] ?: [];
+			unset($sorting[$name]);
+		}
+		if ($sorting_current) {
+			$sortPos = 1;
+			foreach ($query['sort'] as $key => $item) {
+				if ($key == $name) break;
+				$sortPos += 1;
+			}
+		}
+	}
+    ?>
+    <th class="<?= $name ?> sort-pos-<?= @$sortPos ?>">
+        <a href="<?= $can_sort ? $this->url($this->route, [], ['query' => array_merge($query, ['sort' => $sorting])]) : '#' ?>"
+        onclick="<?= $can_sort ? '' : 'return false;' ?>">
+            <?= $title ?>
+            <i <?=$can_sort ? '' : 'style="display: none;"'?> class="fa <?= !$sorting_current ? 'fa-unsorted' : 'fa-sort-'.$sorting_current ?>"></i>
+        </a>
+    </th>
+<?php } ?>
+
+<div class="all-count alert alert-info">Total cities count: <span><?= $paginator->getTotalItemCount() ?></span></div>
+<table class="table cities-table">
+    <thead>
+        <tr>
+            <?= $getTableTHItem('Name', 'City') ?>
+            <?= $getTableTHItem('CountryName', 'Country') ?>
+            <?= $getTableTHItem('Population', 'Population') ?>
+            <?= $getTableTHItem('Language', 'Language', false) ?>
+            <th class="Actions">&nbsp;</th>
+        </tr>
+    </thead>
+    <tbody>
+	<?php foreach ($paginator as $city) :
+        // languages
+		$countryLanguages_arr= explode(',', $city->countryLanguages);
+		$countryLanguages = [];
+	    foreach ($countryLanguages_arr as $language_expr) {
+	        $language = explode('||',$language_expr);
+			$countryLanguages[ $language[2] ] = [
+			        'language' => $language[0],
+                    'isofficial' => $language[1] == 'T' ? true : false,
+            ];
+        }
+		krsort($countryLanguages, SORT_NUMERIC);
+        ?>
+        <tr id="<?= $city->id ?>">
+            <td class="Name"><?= $this->escapeHtml($city->name) ?></td>
+            <td class="CountryName"><?= $this->escapeHtml($city->countryName) ?></td>
+            <td class="Population"><?= $this->escapeHtml($city->population) ?></td>
+            <td class="Languages">
+                <ul class="language-list">
+                <?php $i = 0; foreach ($countryLanguages as $percentage => $language) { ?>
+                    <li id="<?= $city->id.'-'.$i ?>">
+                        <span class="language"><?= $this->escapeHtml($language['language']) ?></span>
+                        (<span class="percentage"><?= $this->escapeHtml($percentage) ?></span>%)
+                        <span class="isofficial <?= $language['isofficial'] ? 'official' : '' ?>"
+                              title="<?=$language['isofficial'] ? 'O' : 'Not o' ?>fficial language">
+                            <i class="fa fa-<?=$language['isofficial'] ? 'circle' : 'circle-o' ?>"></i>
+                        </span>
+                        <style> .cities-table .language-list.open li[id="<?= $city->id.'-'.$i ?>"]:before{right: <?= round(100.0 - floatval($percentage), 1) ?>%;} </style>
+                    </li>
+                <?php $i++; } ?>
+                </ul>
+            </td>
+            <td class="Actions">
+                <a class="button edit" href="<?= $this->url('cities', ['action' => 'edit',   'id' => $city->id]) ?>" title="Edit">
+                    <i class="fa fa-pencil"></i>
+                </a>
+                <a class="button info" href="#" title="Info">
+                    <i class="fa fa-angle-down"></i>
+                </a>
+            </td>
+        </tr>
+        <tr class="info" style="display: none;">
+            <td colspan="5">
+                <span>
+                    <span class="name">Country code:</span>
+                    <span class="value"><?= $this->escapeHtml($city->countryCode) ?></span>
+                </span>
+                <span>
+                    <span class="name">District:</span>
+                    <span class="value"><?= $this->escapeHtml($city->district) ?></span>
+                </span>
+                <span>
+                    <span class="name">Population:</span>
+                    <span class="value"><?= $this->escapeHtml($city->population) ?></span>
+                </span>
+            </td>
+        </tr>
+	<?php endforeach; ?>
+    </tbody>
+</table>
+<script>
+    $(document).ready(function (e) {
+        $('.cities-table .language-list > li:not(:first-child)').hide();
+        $('.cities-table .language-list > li:first-child .isofficial').hide();
+
+        // buttons
+        $('.cities-table td.Actions .button.edit').click(function (e) {
+            e.preventDefault();
+            var a   = $(this),
+                row = a.closest('tr'),
+                id = row.attr('id'),
+                link = a.attr('href');
+
+            if ( !id ) return;
+
+            // row
+            var tdName = row.find('td.Name');
+            var name_old = tdName.text();
+            tdName.html('<div class="name-data-old" style="display: none">'+ tdName.html() +'</div>')
+                .append(
+                    '<form class="edit-form">' +
+                        '<input name="Name" type="text" value="'+name_old+'"></input>'+
+                        '<span class="actions">'+
+                            '<button type="submit" class="button button-border save" title="Save"><i class="fa fa-check"></i></button>'+
+                            '<button type="reset" class="button button-border cancel" title="Cancel"><i class="fa fa-times"></i></button>'+
+                        '</span>'+
+                    '</form>'
+                );
+
+            tdName.find('.edit-form input[name="Name"]')
+                .keydown(function (e) {
+                    if(e.keyCode==27){
+                        tdName.find('.actions .button.cancel').click();
+                    }
+                })
+                .focus();
+
+            tdName.find('.actions .button.cancel').click(function (e) {
+                tdName.html(tdName.find('.name-data-old').html());
+            });
+            tdName.find('.actions .button.save').click(function (e) {
+                e.preventDefault();
+
+                // loader
+                showLoader();
+
+                var new_name = $(this).closest('.edit-form').find('input[name="Name"]').val();
+
+                // ajax
+                $.ajax({
+                    method:   "POST",
+                    dataType: "json",
+                    url:      link,
+                    data: {
+                        'Name': new_name,
+                    },
+                })
+                .done(function( data ) {
+                    if(data['status'] == 'success') {
+                        tdName.html( data['result']['Name'] );
+                        endLoader( {'success': 'City was saved successfully.'} );
+                    }
+                    else {
+                        endLoader( {'error': 'There are errors:\n\n'+data['error']} );
+                    }
+                });
+            });
+        });
+        $('.cities-table td.Actions .button.info').click(function (e) {
+            e.preventDefault();
+            $(this).closest('tr').next('tr').toggle();
+        });
+
+        // switchers
+        $('.cities-table .language-list > li:first-child')
+            .append('<i class="popup-sign fa fa-angle-down"></i>')
+            .click(function (e) {
+            $(this).closest('.language-list ').toggleClass('open');
+            $(this).parent().find('li:not(:first-child)').toggle();
+            $(this).parent().find('li:first-child .isofficial').toggle();
+            $(this).parent().find('li:first-child .popup-sign').toggle();
+            return false;
+        });
+    });
+</script>
+
+<?= $this->paginationControl(
+// The paginator object:
+	$this->paginator,
+	// The scrolling style:
+	'sliding',
+	// The partial to use to render the control:
+	'partial/paginator',
+	// The route to link to when a user clicks a control link:
+	['route' => 'cities', 'query' => $query]
+) ?>

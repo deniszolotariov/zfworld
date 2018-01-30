@@ -1,0 +1,138 @@
+@charset "UTF-8";
+/**
+ * Created by PhpStorm.
+ * User: Денис
+ * Date: 28.01.18
+ * Time: 10:03
+ */
+a,
+.page-link {
+  color: #579BE4; }
+
+table.cities-table th {
+  padding: 0;
+  min-width: 21%; }
+  table.cities-table th:nth-child(n+5) {
+    min-width: 16%; }
+  table.cities-table th a {
+    display: inline-flex;
+    width: 100%;
+    align-items: center;
+    justify-content: space-between;
+    text-decoration: none !important;
+    padding: 12px; }
+    table.cities-table th a i {
+      color: black; }
+  table.cities-table th.sort-pos-1 {
+    box-shadow: 0px -19px 18px -16px #FF0000 inset; }
+  table.cities-table th.sort-pos-2 {
+    box-shadow: 0px -19px 18px -16px #FF5F59 inset; }
+  table.cities-table th.sort-pos-3 {
+    box-shadow: 0px -19px 18px -16px #FFB6B4 inset; }
+  table.cities-table th.sort-pos-4 {
+    box-shadow: 0px -19px 18px -16px #FFFCFC inset; }
+table.cities-table tbody tr:nth-child(4n+1) {
+  background-color: #FAFEFF; }
+table.cities-table tbody tr:hover .language-list li:first-child {
+  background-color: #F8F8F8; }
+  table.cities-table tbody tr:hover .language-list li:first-child .popup-sign {
+    color: #000000; }
+table.cities-table tbody tr:hover td.actions .button {
+  border-color: #DBE0E4;
+  background-color: #F2FAFF; }
+table.cities-table tbody tr td.Actions {
+  text-align: right; }
+table.cities-table tbody tr .button {
+  display: inline-block;
+  border-radius: 5px;
+  border: 1px solid transparent;
+  width: 35px;
+  height: 35px;
+  line-height: 35px;
+  text-align: center;
+  margin-right: 10px; }
+  table.cities-table tbody tr .button.button-border {
+    border: 1px solid #d9edf7; }
+  table.cities-table tbody tr .button:hover {
+    border-color: #ABCAE4;
+    background-color: #D4EDFF; }
+table.cities-table tbody tr .edit-form {
+  display: flex;
+  justify-content: space-between;
+  align-items: stretch; }
+  table.cities-table tbody tr .edit-form button {
+    background-color: transparent; }
+  table.cities-table tbody tr .edit-form input[type="text"] {
+    flex-grow: 0.9;
+    border-radius: 5px;
+    border: 1px solid #d9edf7;
+    padding: 0 5px; }
+table.cities-table tr.info {
+  position: relative; }
+  table.cities-table tr.info:after {
+    content: "";
+    display: inline-block;
+    position: absolute;
+    left: 10px;
+    top: -20px;
+    border: 10px solid transparent;
+    border-bottom: 10px solid #d9edf7; }
+  table.cities-table tr.info > td {
+    background-color: #d9edf7; }
+    table.cities-table tr.info > td > * {
+      display: block;
+      height: 25px;
+      line-height: 25px; }
+      table.cities-table tr.info > td > *:not(:last-child) {
+        border-bottom: 1px solid #E4E4E4; }
+      table.cities-table tr.info > td > * .name {
+        font-weight: bold; }
+table.cities-table .language-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  position: relative; }
+  table.cities-table .language-list.open {
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    border-radius: 5px;
+    border: 1px solid #F3F3F3;
+    margin: -4px;
+    padding: 4px; }
+    table.cities-table .language-list.open li:before {
+      content: "";
+      display: inline-block;
+      position: absolute;
+      top: 2px;
+      left: 0;
+      bottom: 2px;
+      background-color: rgba(133, 201, 247, 0.5);
+      border-radius: 3px; }
+  table.cities-table .language-list li:first-child {
+    border-bottom: 1px dashed #E4E4E4;
+    cursor: pointer; }
+    table.cities-table .language-list li:first-child:hover {
+      background-color: #F8F8F8; }
+    table.cities-table .language-list li:first-child .popup-sign {
+      color: transparent;
+      position: absolute;
+      top: 50%;
+      right: 0;
+      transform: translate(-50%, -50%); }
+  table.cities-table .language-list li {
+    padding: 5px;
+    position: relative; }
+    table.cities-table .language-list li .language {
+      display: inline-block;
+      min-width: 30%; }
+    table.cities-table .language-list li .isofficial {
+      color: #E4E4E4;
+      float: right; }
+      table.cities-table .language-list li .isofficial.official {
+        color: #4CAE4C; }
+
+.pagination {
+  flex-wrap: wrap;
+  justify-content: center; }
+
+/*# sourceMappingURL=cities.css.map */
